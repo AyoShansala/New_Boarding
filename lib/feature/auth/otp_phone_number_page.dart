@@ -121,7 +121,7 @@ class _OtpPhoneNumberScreenState extends State<OtpPhoneNumberScreen> {
             label: 'Get Started',
             onPressed: () {
               if (_phoneController.text == 'admin') {
-                Navigator.pushNamed(context, AppRouter.bottomNavigationRoute);
+                Navigator.pushNamed(context, AppRouter.adminBottomnavigation);
               } else {
                 sendOtp();
               }

@@ -8,6 +8,7 @@ import 'package:bodima/feature/admin_screens/payment_list.dart';
 import 'package:bodima/feature/admin_screens/send_msg_to_all.dart';
 import 'package:bodima/feature/auth/nic_upload_screen.dart';
 import 'package:bodima/feature/boarding_details_screen/boarding_details_screen.dart';
+import 'package:bodima/feature/user_screens/payment_history_screen/payment_history_screen.dart';
 import 'package:bodima/feature/user_screens/payment_upload/payment_upload_screen.dart';
 import 'package:bodima/feature/user_screens/user_bottom_navigation_bar.dart';
 import 'package:bodima/feature/users_list_screen/users_list_screen.dart';
@@ -49,7 +50,9 @@ class MyApp extends StatelessWidget {
           '/sendmsgtoall': (context) => SendMSGToAll(),
           '/individualmsg': (context) => IndividualMSGScreen(),
           '/boarderdetailsscreen': (context) => BoardingDetailsScreen(),
-          '/adminhomescreen':(context) => AdminHomeScreen(),
+          '/adminhomescreen': (context) => AdminHomeScreen(),
+          '/paymenthistoryscreen': (context) =>
+              PaymentHistoryScreen(userId: "uVRFo4ADwSN0j3rMwxWCxqMLn3t1")
         },
 
         // onGenerateRoute: (settings) {

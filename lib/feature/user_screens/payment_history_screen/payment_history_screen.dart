@@ -45,7 +45,7 @@ class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("boarding_payments")
-                  .doc(widget.userId)
+                  .doc("uVRFo4ADwSN0j3rMwxWCxqMLn3t1")
                   .collection("payed_date")
                   .orderBy('boarderPayDate', descending: true)
                   .snapshots(),

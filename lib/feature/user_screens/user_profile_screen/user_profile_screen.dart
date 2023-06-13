@@ -1,4 +1,5 @@
 import 'package:bodima/shared/widgets/auth_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/colors.dart';
@@ -15,12 +16,6 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  //all text editing controllers
-  TextEditingController addressLineOneController = TextEditingController();
-  TextEditingController addressLineTwoController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController hostalOwnerController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     // MediaQuery Sizes
@@ -33,7 +28,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         backgroundColor: AppColors.bgColor,
         elevation: 0,
         title: const Text(
-          "Admin Place",
+          "Profile",
           style: TextStyle(
               color: AppColors.htitleColor,
               fontSize: 17,
@@ -48,136 +43,209 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
           onPressed: () {},
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              //logout function
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.logout,
+                size: 18,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 30),
-                const SizedBox(
-                  height: 8,
-                ),
-                AuthFormTextField(
-                    controller: addressLineOneController,
-                    hintLabelText: 'Address Line 1',
-                    textInputType: TextInputType.streetAddress,
-                    iconData: Icons.location_on_outlined),
-                const SizedBox(height: 14),
-                const SizedBox(
-                  height: 8,
-                ),
-                AuthFormTextField(
-                    controller: addressLineTwoController,
-                    hintLabelText: 'Address Line 2',
-                    textInputType: TextInputType.streetAddress,
-                    iconData: Icons.location_on_outlined),
-                const SizedBox(height: 14),
-                const SizedBox(height: 14),
-                const SizedBox(
-                  height: 8,
-                ),
-                AuthFormTextField(
-                    controller: phoneNumberController,
-                    hintLabelText: 'Phone Number',
-                    textInputType: TextInputType.phone,
-                    iconData: Icons.phone_outlined),
-                const SizedBox(height: 14),
-                const SizedBox(
-                  height: 8,
-                ),
-                AuthFormTextField(
-                    controller: hostalOwnerController,
-                    hintLabelText: 'Hostel Owner',
-                    textInputType: TextInputType.name,
-                    iconData: Icons.man_outlined),
-                const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    "Upload Photo",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
+      body: Center(
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection("boarding_users")
+                .doc("qkimApLbj6WU4NWwmkZVJrDWdoK2")
+                .get(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Column(
                   children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 20, right: 5),
-                        height: screenHeight * 0.15,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 230, 230, 230),
-                          borderRadius: BorderRadius.circular(8),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            bottom: screenHeight * 0.010,
+                            right: 25,
+                            left: 25,
+                          ),
+                          child: const Text(
+                            "Name",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.camera_enhance_rounded,
-                              size: 26,
-                              color: Colors.grey,
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: screenHeight * 0.025,
+                        right: 25,
+                        left: 25,
+                      ),
+                      child: TextFormField(
+                        initialValue: snapshot.data['boarderName'],
+                        readOnly: true,
+                        style: const TextStyle(fontSize: 20),
+                        cursorColor: Colors.black,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
                             ),
-                            Text(
-                              'Front of Document',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: Color.fromARGB(255, 97, 97, 97)),
-                            )
-                          ],
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          filled: false,
+                          contentPadding: EdgeInsets.all(17),
                         ),
                       ),
                     ),
                     const SizedBox(
-                      width: 30,
+                      height: 30,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 20, left: 5),
-                        height: screenHeight * 0.15,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 230, 230, 230),
-                          borderRadius: BorderRadius.circular(8),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            bottom: screenHeight * 0.010,
+                            right: 25,
+                            left: 25,
+                          ),
+                          child: const Text(
+                            "Age",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.camera_enhance_rounded,
-                              size: 26,
-                              color: Colors.grey,
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: screenHeight * 0.025,
+                        right: 25,
+                        left: 25,
+                      ),
+                      child: TextFormField(
+                        initialValue: snapshot.data['boarderAge'],
+                        readOnly: true,
+                        style: const TextStyle(fontSize: 20),
+                        cursorColor: Colors.black,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
                             ),
-                            Text(
-                              'Front of Document',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: Color.fromARGB(255, 97, 97, 97)),
-                            )
-                          ],
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          filled: false,
+                          contentPadding: EdgeInsets.all(17),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            bottom: screenHeight * 0.010,
+                            right: 25,
+                            left: 25,
+                          ),
+                          child: const Text(
+                            "Boarder Phone Number",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: screenHeight * 0.025,
+                        right: 25,
+                        left: 25,
+                      ),
+                      child: TextFormField(
+                        initialValue: snapshot.data['phone_nummber'],
+                        readOnly: true,
+                        style: const TextStyle(fontSize: 20),
+                        cursorColor: Colors.black,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          filled: false,
+                          contentPadding: EdgeInsets.all(17),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            bottom: screenHeight * 0.010,
+                            right: 25,
+                            left: 25,
+                          ),
+                          child: const Text(
+                            "Parent Phone Number",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: screenHeight * 0.025,
+                        right: 25,
+                        left: 25,
+                      ),
+                      child: TextFormField(
+                        initialValue: snapshot.data['parent_phone_number'],
+                        readOnly: true,
+                        style: const TextStyle(fontSize: 20),
+                        cursorColor: Colors.black,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          filled: false,
+                          contentPadding: EdgeInsets.all(17),
                         ),
                       ),
                     ),
                   ],
-                ),
-                const SizedBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.only(left: 25, right: 25),
-                  child: SizedBox(
-                    height: 40,
-                    width: screenWidth - 50,
-                    child: MainButton(label: "Add Place", onPressed: () {}),
-                  ),
-                )
-              ],
-            ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ),
       ),

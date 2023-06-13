@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:bodima/feature/admin_notifications/notifications_screen.dart';
 import 'package:bodima/feature/user_screens/boarders_list/boarders_list_screen.dart';
+import 'package:bodima/feature/user_screens/payment_history_screen/payment_history_screen.dart';
 import 'package:bodima/feature/user_screens/user_home.dart';
 import 'package:bodima/feature/user_screens/user_profile_screen/user_profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _BottomNavigationState extends State<BottomNavigation>
 
   final screenList = <Widget>[
     const UserHomeScreen(),
-    const BoardersListScreen(),
+    PaymentHistoryScreen(userId: 'uVRFo4ADwSN0j3rMwxWCxqMLn3t1'),
     //const PaymentHistoryScreen(),
     const NotificationScreen(),
     const UserProfileScreen(),
