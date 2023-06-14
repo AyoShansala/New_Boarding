@@ -1,9 +1,11 @@
 import 'package:bodima/feature/user_screens/payment_history_screen/payment_history_card.dart';
 import 'package:bodima/feature/user_screens/payment_view/payment_view_screen.dart';
 import 'package:bodima/models/pay_slip.dart';
+import 'package:bodima/shared/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/app_router.dart';
 import '../../../shared/colors.dart';
@@ -22,6 +24,8 @@ class PaymentHistoryScreen extends StatefulWidget {
 }
 
 class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +49,7 @@ class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("boarding_payments")
-                  .doc("uVRFo4ADwSN0j3rMwxWCxqMLn3t1")
+                  .doc(sharedPreferences!.getString("uid"))
                   .collection("payed_date")
                   .orderBy('boarderPayDate', descending: true)
                   .snapshots(),

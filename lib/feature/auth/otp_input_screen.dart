@@ -1,6 +1,8 @@
 import 'package:bodima/feature/auth/user_details_form_screen.dart';
+import 'package:bodima/shared/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app/app_router.dart';
 import '../../shared/images.dart';
@@ -48,18 +50,20 @@ class _OtpInputScreenState extends State<OtpInputScreen> {
       );
       //after sucessfull otp verification push to home page
       User? currentUser;
-      
-      
+
       await auth.signInWithCredential(credential).then(
-             
             (value) => {
+              //save locally
+
               Navigator.pushNamed(
                 context,
                 AppRouter.userDetailsFormScreenRoute,
               )
             },
           );
-          print("This is uuid : ${auth.currentUser!.uid}");
+      print("This is uuid : ${auth.currentUser!.uid}");
+     ;
+      await sharedPreferences!.setString("uid", auth.currentUser!.uid);
     }
 
     // MediaQuery Sizes

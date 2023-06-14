@@ -1,10 +1,11 @@
-import 'package:bodima/shared/widgets/auth_text_field.dart';
+import 'package:bodima/app/app_router.dart';
+import 'package:bodima/shared/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../shared/colors.dart';
 import '../../../shared/images.dart';
-import '../../../shared/widgets/main_button.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static const String routeName = '/userprofilescreen';
@@ -45,8 +46,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
         actions: [
           InkWell(
-            onTap: () {
+            onTap: () async {
               //logout function
+              FirebaseAuth.instance.signOut().then((value) {
+                // Navigate to the social screen when the timer is up
+                Navigator.pushNamed(
+                    context, AppRouter.otpPhoneNumberScreenRoute);
+              });
             },
             child: const Padding(
               padding: EdgeInsets.only(right: 10),
@@ -64,7 +70,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           child: FutureBuilder(
             future: FirebaseFirestore.instance
                 .collection("boarding_users")
-                .doc("qkimApLbj6WU4NWwmkZVJrDWdoK2")
+                .doc(sharedPreferences!.getString("uid"))
                 .get(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {

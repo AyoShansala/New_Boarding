@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bodima/app/app_router.dart';
 import 'package:bodima/shared/images.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../feature/auth/otp_phone_number_page.dart';
@@ -18,9 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 1),
-      () {
-        // Navigate to the social screen when the timer is up
-        Navigator.pushNamed(context, AppRouter.otpPhoneNumberScreenRoute);
+      () async {
+        if (FirebaseAuth.instance.currentUser != null) {
+          Navigator.pushNamed(
+            context,
+            AppRouter.bottomNavigationRoute,
+          );
+        } //user is not already loged-in
+        else {
+          // Navigate to the social screen when the timer is up
+          Navigator.pushNamed(context, AppRouter.otpPhoneNumberScreenRoute);
+        }
       },
     );
   }
